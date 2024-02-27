@@ -27,7 +27,7 @@ const promptUser = () =>
     },
     {
       type: 'input',
-      name: 'managerEmail',
+      name: 'ManagerEmail',
       message: 'What is your email?',
     },
     {
@@ -43,26 +43,63 @@ const promptUser = () =>
     },
     {
       type: 'input',
+        name: 'InternName',
+        message: 'What is your name?',
+        when: data=>data.teamMembers === "Intern"
+      },
+      {
+        type: 'input',
+        name: 'InternID',
+        message: 'What is your employee ID?',
+        when: data=>data.teamMembers === "Intern"
+      },
+      {
+        type: 'input',
+        name: 'InternEmail',
+        message: 'What is your email?',
+        when: data=>data.teamMembers === "Intern"
+      },
+    {
+      type: 'input',
       name: 'school',
       message: 'Please enter your school name',
       when: data=>data.teamMembers === "Intern"
     },
     {
       type: 'input',
+        name: 'EngineerName',
+        message: 'What is your name?',
+        when: data=>data.teamMembers === "Engineer"
+      },
+      {
+        type: 'input',
+        name: 'EngineerID',
+        message: 'What is your employee ID?',
+        when: data=>data.teamMembers === "Engineer"
+      },
+      {
+        type: 'input',
+        name: 'EngineerEmail',
+        message: 'What is your email?',
+        when: data=>data.teamMembers === "Engineer"
+      },
+    {
+      type: 'input',
       name: 'github',
       message: 'Please enter your github profile link',
       when: data=>data.teamMembers === "Engineer"
     },
+
  ]).then(results => {
   console.log(results)
   const team = [];
   const manager = new Manager(results.ManagerName, results.ManagerID, results.ManagerEmail, results.OfficeNumber);
   team.push(manager)
   console.log(manager)
-  const engineer = new Engineer(results.ManagerName, results.ManagerID, results.ManagerEmail, results.github);
+  const engineer = new Engineer(results.EngineerName, results.EngineerID, results.EngineerEmail, results.github);
   team.push(engineer);
   console.log(engineer)
-  const intern = new Intern(results.ManagerName, results.ManagerID, results.ManagerEmail, results.school);
+  const intern = new Intern(results.InternName, results.InternID, results.InternEmail, results.school);
   team.push(intern);
   console.log(intern)
   let htmlString = render(team)
