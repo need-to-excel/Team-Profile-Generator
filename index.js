@@ -53,18 +53,25 @@ const promptUser = () =>
       message: 'Please enter your github profile link',
       when: data=>data.teamMembers === "Engineer"
     },
- ]);
+ ]).then(results => {
+  console.log(results)
+  const team = [];
+  const manager = new Manager(results.ManagerName, results.ManagerID, results.ManagerEmail, results.OfficeNumber);
+  team.push(manager)
+  console.log(manager)
+  const engineer = new Engineer(results.ManagerName, results.ManagerID, results.ManagerEmail, results.github);
+  team.push(engineer);
+  console.log(engineer)
+  const intern = new Intern(results.ManagerName, results.ManagerID, results.ManagerEmail, results.school);
+  team.push(intern);
+  console.log(intern)
+  let htmlString = render(team)
+  console.log(htmlString)
+  writeToFile("TeamProfile.html", htmlString)
+});
 
  function writeToFile(fileName, data) {
     return fs.writeFileSync(path.join(process.cwd(), fileName), data);
 }
 
- promptUser().then(results => {
-    console.log(results)
-    const team = [];
-    const manager = new Manager(results.ManagerName, results.ManagerID, results.ManagerEmail, results.OfficeNumber);
-    team.push(manager)
-    let htmlString = render(team)
-    console.log(htmlString)
-    writeToFile("TeamProfile.html", htmlString)
- })
+ promptUser();
